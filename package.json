@@ -1,0 +1,20 @@
+{
+	"name": "bits-cli",
+	"version": "1.0.0",
+	"description": "",
+	"main": "dist/index.js",
+	"scripts": {
+		"dev": "tsup src/index.ts --watch",
+		"build": "tsup src/index.ts",
+		"clean": "rm -rf dist/*",
+		"test": "npm run clean && npm run build && node dist/index.js"
+	},
+	"author": "",
+	"license": "ISC",
+	"devDependencies": {
+		"@types/node": "^20.10.2",
+		"bits-ui": "^0.9.9",
+		"tsup": "^8.0.1",
+		"typescript": "^5.3.2"
+	}
+}
