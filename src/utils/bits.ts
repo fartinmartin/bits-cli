@@ -22,14 +22,14 @@ export async function getBitContent(bitRoot: string, bit: string) {
 //
 
 function wrapInDiv(structure: string, bit: string) {
-	const scriptTagRegex = /<script[\s\S]+?<\/script>/;
+	const scriptTag = /<script[\s\S]+?<\/script>/;
 
-	const match = structure.match(scriptTagRegex);
+	const match = structure.match(scriptTag);
 	if (!match) throw Error(`No \`<script>\` tag found in structure: ${bit}`);
 
 	const scriptPart = match[0];
-	const template = structure.replace(scriptTagRegex, "");
 
+	const template = structure.replace(scriptTag, "");
 	const formatted = template.trim().split("\n").join("\n\t");
 	const wrapped = `<div class="${prefix}${bit}">\n\t${formatted}\n</div>`;
 
@@ -40,6 +40,7 @@ function wrapInDiv(structure: string, bit: string) {
 
 async function getAttrs(bit: string, parts: string[]) {
 	const dataAttrs = await getDataAttrs(bit);
+  
 	return parts.flatMap((part) => {
 		const attr = `data-bits-${bit}-${part}`;
 		const data = dataAttrs.get(part);
@@ -75,8 +76,8 @@ function getParts(bitRoot: string, bit: string) {
 
 	const data = fs.readFileSync(ctxPath, { encoding: "utf-8" });
 
-	const partsRegex = /const\s+PARTS\s*=\s*(\[.*?\]);/s;
-	const match = data.match(partsRegex);
+	const parts = /const\s+PARTS\s*=\s*(\[.*?\]);/s;
+	const match = data.match(parts);
 
 	if (!match || !match[1])
 		throw Error(`No \`PARTS\` found in 'ctx.js' file: ${bit}`);
@@ -88,9 +89,9 @@ function getParts(bitRoot: string, bit: string) {
 
 async function getStructure(bit: string) {
 	const markdown = await getMd(bit);
-	const structureBlockRegex = /## Structure[\s\S]+?```svelte\n([\s\S]+?)```/;
+	const structureBlock = /## Structure[\s\S]+?```svelte\n([\s\S]+?)```/;
 
-	const match = markdown.match(structureBlockRegex);
+	const match = markdown.match(structureBlock);
 	if (!match || !match[1])
 		throw new Error(`Couldn't parse structure in markdown: ${bit}`);
 
