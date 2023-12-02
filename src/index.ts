@@ -1,6 +1,6 @@
 import path from "path";
 import fs from "fs";
-import { getBitContent } from "./utils";
+import { getBitContent } from "./utils/bits";
 
 // TODO: get prefix from args, for now:
 export const prefix = ""; // "bits-"

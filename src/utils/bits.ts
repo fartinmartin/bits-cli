@@ -1,7 +1,7 @@
 import path from "path";
 import fs from "fs";
 
-import { prefix } from ".";
+import { prefix } from "../index";
 import { extractConstants } from "./ts";
 
 export async function getBitContent(bitRoot: string, bit: string) {
